@@ -5,6 +5,7 @@ import { AuthInputSchema } from './types';
 import jwt from 'jsonwebtoken'
 import { authMiddleware } from './middleware';
 
+
 const app = express();
 
 app.use(express.json());
@@ -75,8 +76,8 @@ app.post('/website', authMiddleware, async (req,res) => {
     })
 })
 
-app.get('/status/:websiteId', authMiddleware, (req,res) => {
-    const website = prismaClient.website.findFirst({
+app.get('/status/:websiteId', authMiddleware, async (req,res) => {
+    const website = await prismaClient.website.findFirst({
         where:{
             userId: req.userId!,
             id: req.params.websiteId
@@ -89,6 +90,17 @@ app.get('/status/:websiteId', authMiddleware, (req,res) => {
                 take: 1
             }
         }
+    })
+
+    if(!website){
+        return res.status(404).json({message: 'Website not found'})
+        return;
+    }
+
+    res.json({
+        url: website.url,
+        id: website.id,
+        userId: website.userId,
     })
 })
 
