@@ -35,7 +35,7 @@ export async function xAddBulk(websites: WebsiteEvent[]){
 }
 
 
-export async function xReadGroup(consumerGroup: string, consumerName: string) : Promise<Message[]>{
+export async function xReadGroup(consumerGroup: string, consumerName: string) : Promise<Message[] | undefined>{
     const res = (await client).xReadGroup(consumerGroup, consumerName, {
         key: 'betteruptime:website',
         id: '>'
@@ -44,13 +44,21 @@ export async function xReadGroup(consumerGroup: string, consumerName: string) : 
     });
 
     // @ts-ignore
+    let messages: Message[] | undefined = res?.[0].messages;
+
+    return messages;
+}
+
+
+async function xAck(consumerGroup: string, id: string){
+    const res = (await client).xAck('betteruptime:website', consumerGroup, id);
 
     return res;
 }
 
+export async function xAckBulk(consumerGroup: string, ids: string[]){
 
-export async function xAck(consumerGroup: string, id: string){
-    const res = (await client).xAck('betteruptime:website', consumerGroup, id);
-
-    return res;
+    for(const id of ids){
+        await xAck(consumerGroup,id)
+    }
 }

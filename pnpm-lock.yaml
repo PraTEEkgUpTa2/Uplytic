@@ -60,6 +60,9 @@ importers:
       axios:
         specifier: ^1.11.0
         version: 1.11.0
+      db:
+        specifier: workspace:*
+        version: link:../../packages/db
       pusher:
         specifier: workspace:*
         version: link:../../packages/pusher
