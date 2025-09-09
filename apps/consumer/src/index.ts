@@ -17,7 +17,7 @@ async function main(){
         await Promise.all(res);
 
 
-        console.log(response);
+        console.log(res);
 
 
         xAckBulk('india',response.map(msg => msg.id));
