@@ -1,8 +1,6 @@
 {
   "extends": "@repo/typescript-config/base.json",
   "compilerOptions": {
-    "rootDir": "./src",
-    "outDir": "./dist",
     "plugins": [
       {
         "name": "next"
@@ -10,12 +8,12 @@
     ]
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
+    "**/*.ts",
+    "**/*.tsx",
     "next-env.d.ts",
     "next.config.js",
     ".next/types/**/*.ts"
-  ],
+, "index.ts"  ],
   "exclude": [
     "node_modules"
   ]

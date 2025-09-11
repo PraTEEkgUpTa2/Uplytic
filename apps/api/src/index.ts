@@ -4,12 +4,20 @@ import {prismaClient} from 'db/client'
 import { AuthInputSchema } from './types';
 import jwt from 'jsonwebtoken'
 import { authMiddleware } from './middleware';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
 
 const app = express();
 
 app.use(express.json());
 dotenv.config();
+app.use(cookieParser());
+
+app.use(cors({
+    origin: "http://localhost:3000",
+    credentials: true
+}))
 
 app.post('/signup', async (req, res) => {
 
@@ -26,7 +34,7 @@ app.post('/signup', async (req, res) => {
             }
         })
 
-        res.json({
+        res.status(200).json({
             id: user.id
         })
     } catch (error) {
@@ -57,10 +65,17 @@ app.post('/login', async (req,res) => {
         sub: user.id
     }, process.env.JWT_SECRET!)
 
-    res.json({
-        jwt: token
+    res.cookie('token', token, {
+        httpOnly: true,
+        secure: true,
+
     })
 
+    res.status(200).json({
+        message: 'Logged in successfully',
+        id: user.id,
+        username: user.username,
+    })
 })
 
 app.post('/website', authMiddleware, async (req,res) => {
@@ -76,6 +91,8 @@ app.post('/website', authMiddleware, async (req,res) => {
     })
 })
 
+
+
 app.get('/status/:websiteId', authMiddleware, async (req,res) => {
     const website = await prismaClient.website.findFirst({
         where:{
@@ -87,7 +104,7 @@ app.get('/status/:websiteId', authMiddleware, async (req,res) => {
                 orderBy: [{
                     createdAt: 'desc'
                 }],
-                take: 1
+                take: 10
             }
         }
     })
@@ -104,4 +121,24 @@ app.get('/status/:websiteId', authMiddleware, async (req,res) => {
     })
 })
 
-app.listen(8080);
+app.get('/websites', authMiddleware, async (req,res) => {
+    const websites = await prismaClient.website.findMany({
+        where:{
+            userId: req.userId!
+        },
+        include: {
+            checks:{
+                orderBy: [{
+                    createdAt: 'desc'
+                }],
+                take: 1
+            }
+        }
+    })
+
+    res.json(websites);
+})
+
+app.listen(8080, () => {
+    console.log('Server started on port 8080');
+});

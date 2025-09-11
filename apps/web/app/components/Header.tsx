@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Menu, X, Activity } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
+import Link from "next/link";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,29 +22,16 @@ const Header = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8">
-            <a href="#features" className="text-foreground hover:text-secondary transition-colors">
-              Features
-            </a>
-            <a href="#pricing" className="text-foreground hover:text-secondary transition-colors">
-              Pricing
-            </a>
-            <a href="#docs" className="text-foreground hover:text-secondary transition-colors">
-              Docs
-            </a>
-            <a href="#contact" className="text-foreground hover:text-secondary transition-colors">
-              Contact
-            </a>
-          </nav>
+         
 
           {/* Desktop CTA */}
           <div className="hidden md:flex items-center gap-3">
             <ThemeToggle />
             <Button variant="ghost" asChild>
-              <a href="/login">Sign in</a>
+              <Link href="/login">Sign in</Link>
             </Button>
             <Button className="btn-hero" asChild>
-              <a href="/signup">Get started</a>
+              <Link href="/signup">Get started</Link>
             </Button>
           </div>
 
@@ -66,21 +54,13 @@ const Header = () => {
               <a href="#features" className="text-foreground hover:text-secondary transition-colors py-2">
                 Features
               </a>
-              <a href="#pricing" className="text-foreground hover:text-secondary transition-colors py-2">
-                Pricing
-              </a>
-              <a href="#docs" className="text-foreground hover:text-secondary transition-colors py-2">
-                Docs
-              </a>
-              <a href="#contact" className="text-foreground hover:text-secondary transition-colors py-2">
-                Contact
-              </a>
+              
               <div className="flex flex-col gap-2 mt-4">
                 <Button variant="ghost" className="justify-start" asChild>
-                  <a href="/login">Sign in</a>
+                  <Link href="/login">Sign in</Link>
                 </Button>
                 <Button className="btn-hero justify-start" asChild>
-                  <a href="/signup">Get started</a>
+                  <Link href="/signup">Get started</Link>
                 </Button>
               </div>
             </nav>

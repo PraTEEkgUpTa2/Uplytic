@@ -1,7 +1,10 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Activity } from "lucide-react";
-import heroImage from "@/public/image.png";
+
 import Image from "next/image";
+import Link from "next/link"
 
 const Hero = () => {
   return (
@@ -36,7 +39,7 @@ const Hero = () => {
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <Button className="btn-hero group">
-                Start monitoring
+                <Link href="/signup">Start monitoring</Link>
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </Button>
               <Button variant="outline" className="px-8 py-3 rounded-lg font-medium">
@@ -58,9 +61,10 @@ const Hero = () => {
           <div className="relative animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
             <div className="relative">
               <Image 
-                src={heroImage} 
+                src="/image.png" 
                 alt="Website monitoring dashboard illustration" 
                 className="w-full h-auto rounded-2xl shadow-2xl"
+                width={500} height={500}
               />
               
               {/* Overlay status indicators */}

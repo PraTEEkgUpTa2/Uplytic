@@ -1,21 +1,20 @@
 {
   "name": "pusher",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "tsc && node dist/index.js"
-  },
+  "main": "index.ts",
+  "types": "index.ts",
   "exports": {
-    "./client": "./src/index.ts"
+    ".": "./index.ts",
+    "./client": "./index.ts"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "scripts": {
+    "dev": "tsx index.ts"
+  },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    "typescript": "^5.9.2"
+    "typescript": "^5.9.2",
+    "tsx": "^4.7.0"
   },
   "dependencies": {
     "redis": "^5.8.2"

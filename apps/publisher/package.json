@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node dist/index.js"
+    "start": "tsx index.ts"
   },
   "keywords": [],
   "author": "",
@@ -12,13 +12,13 @@
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
-    
+    "tsx": "^4.7.0",
     "typescript": "^5.9.2"
   },
   "dependencies": {
     "db": "workspace:*",
-    "pusher": "workspace:*",
     "dotenv": "^17.2.2",
+    "pusher": "workspace:*",
     "redis": "^5.8.2"
   }
 }

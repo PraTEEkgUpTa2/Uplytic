@@ -11,10 +11,10 @@ declare global {
 
 export const authMiddleware = async (req: Request,res: Response,next: NextFunction) => {
 
-    const header = req.headers.authorization!;
+     const token = req.cookies.token;
 
     try {
-        let data = jwt.verify(header, process.env.JWT_SECRET!);
+        let data = jwt.verify(token, process.env.JWT_SECRET!);
         req.userId = data.sub as string;
         next();
     } catch (error) {

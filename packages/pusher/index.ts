@@ -36,12 +36,16 @@ export async function xAddBulk(websites: WebsiteEvent[]){
 
 
 export async function xReadGroup(consumerGroup: string, consumerName: string) : Promise<Message[] | undefined>{
-    const res = (await client).xReadGroup(consumerGroup, consumerName, {
+    const res = await (await client).xReadGroup(consumerGroup, consumerName, {
         key: 'betteruptime:website',
         id: '>'
     }, {
         COUNT: 10
     });
+
+     if (!res) {
+    return undefined;
+  }
 
     // @ts-ignore
     let messages: Message[] | undefined = res?.[0].messages;

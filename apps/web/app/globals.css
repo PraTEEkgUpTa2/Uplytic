@@ -5,6 +5,8 @@
 
 /* Define theme design tokens via CSS-first configuration */
 @theme {
+
+  --animate-pulse-ring: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   /* Core Background & Text */
   --background: 0 0% 100%;
   --foreground: 215 25% 27%;
@@ -220,10 +222,20 @@
     background-image: radial-gradient(circle at 1px 1px, hsl(var(--grid-color)) 1px, transparent 0);
     background-size: 20px 20px;
   }
+
+   .bg-card {
+    background-color: hsl(var(--card));
+  }
+  .border-success {
+    border-color: hsl(var(--success));
+  }
+  .border-success-20 {
+    border-color: hsl(var(--success) / 0.2);
+  }
 }
 
 /* Keyframes */
-@theme{
+
   @keyframes pulse-ring {
   0% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
   100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
@@ -235,4 +247,4 @@
 @keyframes fade-in-up {
   0% { opacity: 0; transform: translateY(20px); }
   100% { opacity: 1; transform: translateY(0); }
-}}
+}
