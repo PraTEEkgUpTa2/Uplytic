@@ -34,6 +34,7 @@ model Region {
   id      String    @id @default(uuid())
   name    String
   checks  WebsiteCheck[]
+  createdAt        DateTime @default(now())
 }
 
 model WebsiteCheck {

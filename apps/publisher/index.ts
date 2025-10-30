@@ -12,6 +12,8 @@ async function main(){
         }
     })
 
+    console.log(`Adding ${websites.length} websites to the queue`);
+
     await xAddBulk(websites.map(website => ({
         url: website.url,
         id: website.id

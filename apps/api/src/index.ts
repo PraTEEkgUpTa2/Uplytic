@@ -91,6 +91,21 @@ app.post('/website', authMiddleware, async (req,res) => {
     })
 })
 
+app.post('/region', async (req,res) => {
+
+    const region = await prismaClient.region.create({
+        data:{
+            name: req.body.name,
+            
+        }
+    })
+
+    res.json({
+        id: region.id,
+        name: region.name
+    })
+})
+
 
 
 app.get('/status/:websiteId', authMiddleware, async (req,res) => {
@@ -110,8 +125,7 @@ app.get('/status/:websiteId', authMiddleware, async (req,res) => {
     })
 
     if(!website){
-        return res.status(404).json({message: 'Website not found'})
-        return;
+        return res.status(404).json({message: 'Website not found'});
     }
 
     res.json({

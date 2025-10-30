@@ -4,18 +4,31 @@ import { prismaClient } from 'db/client';
 
 
 async function main(){
+
+    const regionId = await prismaClient.region.findFirst({
+        select:{
+            id: true
+        },
+        orderBy:{
+            createdAt: 'desc'
+        }
+    })
+
+    if(!regionId){
+        return;
+    }
     while(true){
 
-        const response = await xReadGroup('india','ind-1');
+        const response = await xReadGroup(regionId.id,'ind-1');
 
         if(!response){
             continue;
         }
 
-        let res = response.map(({message}) => fetchWebsite(message.url, message.id) );
+        let res = response.map(({message}) => fetchWebsite(message.url, message.id, regionId.id) );
 
         await Promise.all(res);
-
+        console.log(res.length);
 
         console.log(res);
 
@@ -25,7 +38,7 @@ async function main(){
     }
 }
 
-async function fetchWebsite(url: string, id: string){
+async function fetchWebsite(url: string, id: string, regionId: string){
 
     return new Promise<void>((resolve,reject) => {
         const startTime = Date.now();
@@ -38,7 +51,7 @@ async function fetchWebsite(url: string, id: string){
                     response_time_ms: endTime - startTime,
                     status: 'UP',
                     website_id: id,
-                    region_id: '1'
+                    region_id: regionId
 
                 }
             })
@@ -51,7 +64,7 @@ async function fetchWebsite(url: string, id: string){
                     response_time_ms: endTime - startTime,
                     status: 'DOWN',
                     website_id: id,
-                    region_id: '1'
+                    region_id: regionId
                 }
             })
             resolve();

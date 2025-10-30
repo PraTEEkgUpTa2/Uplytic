@@ -16,8 +16,9 @@ interface AddWebsiteModalProps {
 
 const AddWebsiteModal = ({ open, onOpenChange }: AddWebsiteModalProps) => {
   const [formData, setFormData] = useState({
-    
+    name:"",
     url: "",
+    region: "",
     
   });
 
@@ -30,6 +31,10 @@ const AddWebsiteModal = ({ open, onOpenChange }: AddWebsiteModalProps) => {
         const website = await axios.post('/website',{
             url: formData.url
         })
+
+        const region = await axios.post('/region',{
+            name: formData.region
+        });
         
         if(website){
             toast.success("Website added successfully!");
@@ -39,8 +44,9 @@ const AddWebsiteModal = ({ open, onOpenChange }: AddWebsiteModalProps) => {
     }
     // Reset form
     setFormData({
-      
+      name:"",
       url: "",
+      region: "",
       
     });
   };
@@ -66,7 +72,7 @@ const AddWebsiteModal = ({ open, onOpenChange }: AddWebsiteModalProps) => {
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="space-y-4">
             <div className="space-y-2">
-              {/* <Label htmlFor="name" className="flex items-center gap-2">
+               <Label htmlFor="name" className="flex items-center gap-2">
                 <Globe className="h-4 w-4" />
                 Website Name
               </Label>
@@ -77,7 +83,7 @@ const AddWebsiteModal = ({ open, onOpenChange }: AddWebsiteModalProps) => {
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                 className="bg-background/50"
                 required
-              /> */}
+              /> 
             </div>
 
             <div className="space-y-2">
@@ -96,27 +102,25 @@ const AddWebsiteModal = ({ open, onOpenChange }: AddWebsiteModalProps) => {
               />
             </div>
 
-            {/* <div className="space-y-2">
+            <div className="space-y-2">
               <Label htmlFor="interval" className="flex items-center gap-2">
                 <Clock className="h-4 w-4" />
-                Check Interval
+                Select Region
               </Label>
               <Select 
-                value={formData.checkInterval} 
-                onValueChange={(value) => setFormData({ ...formData, checkInterval: value })}
+                value={formData.region} 
+                onValueChange={(value) => setFormData({ ...formData, region: value })}
               >
-                <SelectTrigger className="bg-background/50">
-                  <SelectValue />
+                <SelectTrigger className="bg-background/50 w-full">
+                  <SelectValue placeholder="Select a timezone" className="bg-background/50" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="1">Every minute</SelectItem>
-                  <SelectItem value="5">Every 5 minutes</SelectItem>
-                  <SelectItem value="10">Every 10 minutes</SelectItem>
-                  <SelectItem value="30">Every 30 minutes</SelectItem>
-                  <SelectItem value="60">Every hour</SelectItem>
+                  <SelectItem value="india">India</SelectItem>
+                  <SelectItem value="usa">USA</SelectItem>
+                  
                 </SelectContent>
               </Select>
-            </div> */}
+            </div>
 
             {/* <div className="space-y-2">
               <Label htmlFor="email" className="flex items-center gap-2">
@@ -144,9 +148,9 @@ const AddWebsiteModal = ({ open, onOpenChange }: AddWebsiteModalProps) => {
                   <div className="absolute -top-1 -right-1 w-2 h-2 bg-online rounded-full animate-pulse-ring" />
                 </div>
                 <div className="flex-1">
-                  {/* <h4 className="font-medium">
+                  <h4 className="font-medium">
                     {formData.name || "Website Name"}
-                  </h4> */}
+                  </h4> 
                   <p className="text-sm text-muted-foreground">
                     {formData.url || "https://example.com"}
                   </p>
