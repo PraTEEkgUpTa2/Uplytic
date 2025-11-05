@@ -163,6 +163,10 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -170,7 +174,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../.env",
+    "rootEnvPath": null,
     "schemaEnvPath": "../../../.env"
   },
   "relativePath": "../..",
@@ -189,8 +193,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       String    @id @default(uuid())\n  username String    @unique\n  password String\n  websites Website[]\n}\n\nmodel Website {\n  id        String         @id @default(uuid())\n  url       String\n  timeAdded DateTime       @default(now())\n  checks    WebsiteCheck[]\n  userId    String\n  user      User           @relation(fields: [userId], references: [id])\n}\n\nmodel Region {\n  id        String         @id @default(cuid())\n  name      String         @unique\n  checks    WebsiteCheck[]\n  createdAt DateTime       @default(now())\n}\n\nmodel WebsiteCheck {\n  id               String        @id @default(uuid())\n  response_time_ms Int\n  status           WebsiteStatus\n  region_id        String\n  region           Region        @relation(fields: [region_id], references: [id])\n  website_id       String\n  website          Website       @relation(fields: [website_id], references: [id])\n  createdAt        DateTime      @default(now())\n}\n\nenum WebsiteStatus {\n  UP\n  DOWN\n  Unknown\n}\n",
-  "inlineSchemaHash": "220b998927098e33801f70fe8b8cb7afb3a6dded5c8cc2e3e339b9397be25cda",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  output        = \"./generated/prisma\"\n  binaryTargets = [\"native\", \"debian-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id       String    @id @default(uuid())\n  username String    @unique\n  password String\n  websites Website[]\n}\n\nmodel Website {\n  id        String         @id @default(uuid())\n  url       String\n  timeAdded DateTime       @default(now())\n  checks    WebsiteCheck[]\n  userId    String\n  user      User           @relation(fields: [userId], references: [id])\n}\n\nmodel Region {\n  id        String         @id @default(cuid())\n  name      String         @unique\n  checks    WebsiteCheck[]\n  createdAt DateTime       @default(now())\n}\n\nmodel WebsiteCheck {\n  id               String        @id @default(uuid())\n  response_time_ms Int\n  status           WebsiteStatus\n  region_id        String\n  region           Region        @relation(fields: [region_id], references: [id])\n  website_id       String\n  website          Website       @relation(fields: [website_id], references: [id])\n  createdAt        DateTime      @default(now())\n}\n\nenum WebsiteStatus {\n  UP\n  DOWN\n  Unknown\n}\n",
+  "inlineSchemaHash": "0c83027f3e0b31debf3611461a18ea77a7bdb716bb346e590ab0cbdb43369994",
   "copyEngine": true
 }
 config.dirname = '/'
