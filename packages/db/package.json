@@ -6,11 +6,13 @@
   "exports": {
     "./client": "./index.ts"
   },
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "prisma":{
-    "seed" : "ts-node ./prisma/seed.ts"
+   "scripts": {
+    "dev": "tsx watch index.ts",
+    "build": "tsc",
+    "generate": "prisma generate",
+    "migrate:dev": "prisma migrate dev",
+    "migrate:deploy": "prisma migrate deploy",
+    "studio": "prisma studio"
   },
   "keywords": [],
   "author": "",
