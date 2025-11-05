@@ -29,12 +29,15 @@ const AddWebsiteModal = ({ open, onOpenChange }: AddWebsiteModalProps) => {
     onOpenChange(false);
     try {
         const website = await axios.post('/website',{
-            url: formData.url
+            url: formData.url,
+            
         })
 
-        const region = await axios.post('/region',{
-            name: formData.region
-        });
+        const region = await axios.post('/region', {
+          regionName: formData.region
+        })
+
+        
         
         if(website){
             toast.success("Website added successfully!");

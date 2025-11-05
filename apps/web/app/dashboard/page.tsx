@@ -44,7 +44,7 @@ const Dashboard = () => {
     setWebsites(response.data.map((website: any) => ({
         id: website.id,
         url: website.url,
-        status: website.checks[0] ? (website.checks[0].status === 'up' ? 'Up' : 'Down') : 'Checking',
+        status: website.checks[0] ? (website.checks[0].status === 'UP' ? 'UP' : 'DOWN') : 'Checking',
         responseTime: website.checks[0] ? website.checks[0].response_time_ms : 0,
         lastCheck: website.checks[0] ? new Date(website.checks[0].createdAt).toLocaleString() : 'N/A'
 
@@ -57,11 +57,11 @@ const Dashboard = () => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case "online":
+      case "UP":
         return "bg-online text-success-foreground";
       case "warning":
         return "bg-warning text-warning-foreground";
-      case "offline":
+      case "DOWN":
         return "bg-destructive text-destructive-foreground";
       default:
         return "bg-muted text-muted-foreground";
@@ -70,11 +70,11 @@ const Dashboard = () => {
 
   const getStatusIcon = (status: string) => {
     switch (status) {
-      case "online":
+      case "UP":
         return <CheckCircle className="h-4 w-4" />;
       case "warning":
         return <AlertTriangle className="h-4 w-4" />;
-      case "offline":
+      case "DOWN":
         return <AlertTriangle className="h-4 w-4" />;
       default:
         return <Clock className="h-4 w-4" />;

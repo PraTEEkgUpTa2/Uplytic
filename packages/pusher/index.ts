@@ -16,6 +16,29 @@ type Message = {
     }
 }
 
+
+
+export async function initConsumerGroup(consumerGroup: string) {
+  const redis = await client;
+
+  try {
+    await redis.xGroupCreate(
+      'betteruptime:website',
+      consumerGroup,
+      '$',
+      { MKSTREAM: true }
+    );
+    console.log(`✅ Redis group created for ${consumerGroup}`);
+  } catch (error: any) {
+    if (error?.message?.includes('BUSYGROUP')) {
+      console.log(`⚠️ Group ${consumerGroup} already exists`);
+    } else {
+      console.error('❌ Error creating group:', error);
+    }
+  }
+}
+
+
 async function xAdd({url,id}: WebsiteEvent){
 
     (await client).xAdd('betteruptime:website', '*', {
@@ -35,7 +58,10 @@ export async function xAddBulk(websites: WebsiteEvent[]){
 }
 
 
-export async function xReadGroup(consumerGroup: string, consumerName: string) : Promise<Message[] | undefined>{
+
+
+export async function xReadGroup(consumerGroup: string,consumerName: string) : Promise<Message[] | undefined>{
+    
     const res = await (await client).xReadGroup(consumerGroup, consumerName, {
         key: 'betteruptime:website',
         id: '>'
@@ -46,6 +72,7 @@ export async function xReadGroup(consumerGroup: string, consumerName: string) : 
      if (!res) {
     return undefined;
   }
+  
 
     // @ts-ignore
     let messages: Message[] | undefined = res?.[0].messages;

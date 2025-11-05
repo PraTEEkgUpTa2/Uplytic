@@ -79,12 +79,14 @@ app.post('/login', async (req,res) => {
 })
 
 app.post('/website', authMiddleware, async (req,res) => {
+    
     const website = await prismaClient.website.create({
         data:{
             url: req.body.url,
             userId: req.userId!,
         }
     })
+    
 
     res.json({
         id: website.id,
@@ -92,18 +94,28 @@ app.post('/website', authMiddleware, async (req,res) => {
 })
 
 app.post('/region', async (req,res) => {
+    
+    const regionName = req.body.regionName;
 
-    const region = await prismaClient.region.create({
-        data:{
-            name: req.body.name,
-            
+    const region = await prismaClient.region.findUnique({
+        where:{
+            name: regionName
         }
     })
+    
 
-    res.json({
-        id: region.id,
-        name: region.name
-    })
+    if(!region){
+        const newRegion = await prismaClient.region.create({
+            data:{
+                name: regionName
+            }
+        })
+        return res.json({id: newRegion.id});
+    }
+
+    res.json({id: region.id});
+
+    
 })
 
 

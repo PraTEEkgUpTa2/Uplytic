@@ -31,8 +31,8 @@ model Website {
 }
 
 model Region {
-  id      String    @id @default(uuid())
-  name    String
+  id      String    @id @default(cuid())
+  name    String    @unique
   checks  WebsiteCheck[]
   createdAt        DateTime @default(now())
 }

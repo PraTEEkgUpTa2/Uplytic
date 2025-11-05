@@ -1,31 +1,38 @@
 import axios from 'axios';
-import { xReadGroup, xAckBulk } from 'pusher/client'
+import { xReadGroup, xAckBulk, initConsumerGroup} from 'pusher/client'
 import { prismaClient } from 'db/client';
 
 
 async function main(){
 
-    const regionId = await prismaClient.region.findFirst({
+    
+
+    const region = await prismaClient.region.findFirst({
         select:{
-            id: true
+            id: true,
+            name: true
         },
         orderBy:{
             createdAt: 'desc'
         }
     })
 
-    if(!regionId){
+    if(!region){
         return;
     }
+
+    
+    await initConsumerGroup(region.name);
+
     while(true){
 
-        const response = await xReadGroup(regionId.id,'ind-1');
+        const response = await xReadGroup(region.name,'ind-1');
 
         if(!response){
             continue;
         }
 
-        let res = response.map(({message}) => fetchWebsite(message.url, message.id, regionId.id) );
+        let res = response.map(({message}) => fetchWebsite(message.url, message.id, region.id) );
 
         await Promise.all(res);
         console.log(res.length);
@@ -40,8 +47,18 @@ async function main(){
 
 async function fetchWebsite(url: string, id: string, regionId: string){
 
-    return new Promise<void>((resolve,reject) => {
+    return new Promise<void>(async (resolve,reject) => {
         const startTime = Date.now();
+
+        const website = await prismaClient.website.findUnique({
+      where: { id },
+      select: { id: true }
+    });
+
+    if (!website) {
+      console.warn(`⚠️ Skipping check: Website ID ${id} not found`);
+      return;
+    }
 
         axios.get(url)
         .then(async() => {
