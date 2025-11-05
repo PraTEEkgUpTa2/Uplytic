@@ -15,7 +15,7 @@ dotenv.config();
 app.use(cookieParser());
 
 app.use(cors({
-    origin: process.env.FRONTEND_URL,
+    origin: "https://uplytic-web.vercel.app",
     credentials: true
 }))
 
