@@ -2,14 +2,14 @@
   "name": "db",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     "./client": "./index.ts"
   },
    "scripts": {
     "dev": "tsx watch index.ts",
-    "build": "tsc",
-    "generate": "prisma generate",
+    "build": "prisma generate && tsc",
     "migrate:dev": "prisma migrate dev",
     "migrate:deploy": "prisma migrate deploy",
     "studio": "prisma studio"
